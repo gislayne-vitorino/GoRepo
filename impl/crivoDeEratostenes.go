@@ -1,12 +1,12 @@
 package impl
 
-import "shared"
+import "go-work/shared"
 
 type CrivoDeEratostenes struct{}
 
 func (CrivoDeEratostenes) InvocaCrivoDeEratostenes(req shared.Request) []int {
 
-	n := req.number
+	n := req.Number
 
 	primes := make([]bool, n+1)
 	for i := 2; i <= n; i++ {

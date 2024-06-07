@@ -1,7 +1,7 @@
 package shared
 
 type Request struct {
-	number int
+	Number int
 }
 
 type Reply struct {

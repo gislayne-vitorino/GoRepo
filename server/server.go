@@ -1,8 +1,10 @@
 package main
 
+import "go-work/shared"
+import "go-work/impl"
+
+
 import (
-	"impl"
-	"shared"
 	"encoding/json"
 	"fmt"
 	"net"
