@@ -38,12 +38,30 @@ func ClientePerf() {
 
 	req := shared.Request{Number: 10}
 	rep := shared.Reply{}
+	var durations []int64
+
 	for i := 0; i < shared.StatisticSample; i++ {
 		t1 := time.Now()
-		//for j := 0; j < shared.SampleSize; j++ {
+
 		err = client.Call("CrivoDeEratostenes.InvocaCrivoDeEratostenes", req, &rep)
-		//shared.ChecaErro(err, "Erro na invocação do Crivo de Eratostenes remoto...")
-		//}
-		fmt.Printf("http;%v: %v\n", time.Now().Sub(t1).Milliseconds(), rep)
+
+		t2 := time.Now().Sub(t1).Nanoseconds()
+		durations = append(durations, t2)
+
+		fmt.Printf("RTT: %v: %v\n", t2, rep)
 	}
+
+	mean := calculateMean(durations)
+	fmt.Printf("Mean duration: %v ns\n", mean)
+}
+
+func calculateMean(durations []int64) float64 {
+	if len(durations) == 0 {
+		return 0
+	}
+	var sum int64
+	for _, duration := range durations {
+		sum += duration
+	}
+	return float64(sum) / float64(len(durations))
 }
