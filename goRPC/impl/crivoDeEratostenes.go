@@ -4,8 +4,7 @@ import "go-work/shared"
 
 type CrivoDeEratostenes struct{}
 
-func (CrivoDeEratostenes) InvocaCrivoDeEratostenes(req shared.Request) []int {
-
+func (c *CrivoDeEratostenes) InvocaCrivoDeEratostenes(req shared.Request, reply *shared.Reply) error {
 	n := req.Number
 
 	primes := make([]bool, n+1)
@@ -14,25 +13,18 @@ func (CrivoDeEratostenes) InvocaCrivoDeEratostenes(req shared.Request) []int {
 	}
 
 	for p := 2; p*p <= n; p++ {
-		if primes[p] == true {
+		if primes[p] {
 			for i := p * p; i <= n; i += p {
 				primes[i] = false
 			}
 		}
 	}
 
-	var primeNumbers []int
 	for p := 2; p <= n; p++ {
 		if primes[p] {
-			primeNumbers = append(primeNumbers, p)
+			reply.Result = append(reply.Result, p)
 		}
 	}
 
-	return primeNumbers
+	return nil
 }
-
-/*
-func main() {
-	fmt.Println(crivoDeEratostenes(10))
-}
-*/
