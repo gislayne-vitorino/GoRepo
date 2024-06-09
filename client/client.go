@@ -38,7 +38,7 @@ func CrivoDeEratostenesClientTCP(n int) {
 		os.Exit(0)
 	}
 
-	// fecha conexõa
+	// fecha conexão
 	defer func(conn *net.TCPConn) {
 		err := conn.Close()
 		if err != nil {
@@ -50,10 +50,9 @@ func CrivoDeEratostenesClientTCP(n int) {
 	jsonDecoder := json.NewDecoder(conn)
 	jsonEncoder := json.NewEncoder(conn)
 
-	for i := 0; i < n; i++ {
 
 		// prepara request
-		msgToServer := shared.Request{i} //request esta enviando o numero declarado na main
+		msgToServer := shared.Request{Number: n} //request esta enviando o numero declarado na main
 
 		// serializa e envia request para o servidor
 		err = jsonEncoder.Encode(msgToServer)
@@ -69,6 +68,12 @@ func CrivoDeEratostenesClientTCP(n int) {
 			os.Exit(0)
 		}
 
-		fmt.Println(response)
-	}
+		primes := make([]int, len(response.Result))
+		for i, v := range response.Result {
+			primes[i] = int(v.(float64))
+		}
+
+
+
+		fmt.Println(primes)
 }

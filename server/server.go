@@ -78,9 +78,12 @@ func HandleTCPConnection(conn net.Conn) {
 		r := impl.CrivoDeEratostenes{}.InvocaCrivoDeEratostenes(msgFromClient)
 
 		// cria resposta
-		msgToClient := shared.Reply{[]interface{}{r}}
+		// Usando a lista de inteiros diretamente no campo Result
+		msgToClient := shared.Reply{Result: make([]interface{}, len(r))}
+		for i, v := range r {
+			msgToClient.Result[i] = v
+		}
 
-		// serializa & envia resposta para o cliente
 		err = jsonEncoder.Encode(msgToClient)
 		if err != nil {
 			fmt.Println(err)
