@@ -1,14 +1,14 @@
 package main
 
-import "go-work/shared"
-
 import (
 	"encoding/json"
 	"fmt"
+	"go-work/shared"
 	"net"
 	"os"
-	//"strconv"
 )
+
+//"strconv"
 
 func main() {
 
@@ -50,30 +50,27 @@ func CrivoDeEratostenesClientTCP(n int) {
 	jsonDecoder := json.NewDecoder(conn)
 	jsonEncoder := json.NewEncoder(conn)
 
+	// prepara request
+	msgToServer := shared.Request{Number: n} //request esta enviando o numero declarado na main
 
-		// prepara request
-		msgToServer := shared.Request{Number: n} //request esta enviando o numero declarado na main
+	// serializa e envia request para o servidor
+	err = jsonEncoder.Encode(msgToServer)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(0)
+	}
 
-		// serializa e envia request para o servidor
-		err = jsonEncoder.Encode(msgToServer)
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(0)
-		}
+	// recebe resposta do servidor
+	err = jsonDecoder.Decode(&response)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(0)
+	}
 
-		// recebe resposta do servidor
-		err = jsonDecoder.Decode(&response)
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(0)
-		}
+	primes := make([]int, len(response.Result))
+	for i, v := range response.Result {
+		primes[i] = int(v.(float64))
+	}
 
-		primes := make([]int, len(response.Result))
-		for i, v := range response.Result {
-			primes[i] = int(v.(float64))
-		}
-
-
-
-		fmt.Println(primes)
+	fmt.Println(primes)
 }

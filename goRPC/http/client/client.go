@@ -40,10 +40,10 @@ func ClientePerf() {
 	rep := shared.Reply{}
 	for i := 0; i < shared.StatisticSample; i++ {
 		t1 := time.Now()
-		for j := 0; j < shared.SampleSize; j++ {
-			err = client.Call("CrivoDeEratostenes.InvocaCrivoDeEratostenes", req, &rep)
-			shared.ChecaErro(err, "Erro na invocação do Crivo de Eratostenes remoto...")
-		}
+		//for j := 0; j < shared.SampleSize; j++ {
+		err = client.Call("CrivoDeEratostenes.InvocaCrivoDeEratostenes", req, &rep)
+		//shared.ChecaErro(err, "Erro na invocação do Crivo de Eratostenes remoto...")
+		//}
 		fmt.Printf("http;%v: %v\n", time.Now().Sub(t1).Milliseconds(), rep)
 	}
 }

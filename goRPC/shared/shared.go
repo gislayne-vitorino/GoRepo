@@ -18,5 +18,5 @@ func ChecaErro(err error, msg string) {
 }
 
 const CrivoPort = 4040
-const StatisticSample = 30
+const StatisticSample = 100
 const SampleSize = 10000

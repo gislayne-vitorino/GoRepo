@@ -1,12 +1,10 @@
 package main
 
-import "go-work/shared"
-import "go-work/impl"
-
-
 import (
 	"encoding/json"
 	"fmt"
+	"go-work/impl"
+	"go-work/shared"
 	"net"
 	"os"
 )
@@ -48,7 +46,6 @@ func CrivoDeEratostenesServerTCP() {
 		go HandleTCPConnection(conn)
 	}
 }
-
 
 func HandleTCPConnection(conn net.Conn) {
 	var msgFromClient shared.Request
