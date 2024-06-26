@@ -55,8 +55,7 @@ func CrivoDeEratostenesClientTCP(n int) {
 	// prepara request
 	msgToServer := shared.Request{Number: n} //request esta enviando o numero declarado na main
 
-	// serializa e envia request para o servidor
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < 100; i++ {
 		t1 := time.Now()
 		err = jsonEncoder.Encode(msgToServer)
 		if err != nil {
@@ -64,7 +63,6 @@ func CrivoDeEratostenesClientTCP(n int) {
 			os.Exit(0)
 		}
 
-		// recebe resposta do servidor
 		err = jsonDecoder.Decode(&response)
 		if err != nil {
 			fmt.Println(err)

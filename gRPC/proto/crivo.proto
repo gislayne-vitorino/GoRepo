@@ -1,0 +1,19 @@
+syntax = "proto3";
+option go_package = "github.com/example/path/gen;gen";
+
+package crivo;
+
+service Crivo {
+  rpc crivo (Request) returns (Reply) {}
+}
+
+// Mensagem de Request
+message Request {
+  int32 P1 = 2;
+}
+
+//Mensagem de resposta
+message Reply {
+  repeated int32 N = 1;
+}
+
