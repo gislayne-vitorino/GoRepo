@@ -18,6 +18,6 @@ func ChecaErro(err error, msg string) {
 }
 
 const CrivoPort = 4040
-const StatisticSample = 10000
+const StatisticSample = 30
 const SampleSize = 10000
-const GrpcPort = 5050
+const GrpcPort = 80

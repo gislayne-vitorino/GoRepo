@@ -47,7 +47,7 @@ func (c *crivoClient) Crivo(ctx context.Context, in *Request, opts ...grpc.CallO
 // for forward compatibility
 type CrivoServer interface {
 	Crivo(context.Context, *Request) (*Reply, error)
-	mustEmbedUnimplementedCrivoServer()
+	//mustEmbedUnimplementedCrivoServer()
 }
 
 // UnimplementedCrivoServer must be embedded to have forward compatible implementations.

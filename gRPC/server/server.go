@@ -2,18 +2,14 @@
 package main
 
 import (
-	"go-work/gRPC/shared"
+	"github.com/gislayne-vitorino/GoRepo/gRPC/shared"
 
-	crivo "../impl"                                   //C:\\Users\\voxar\\Documents\\GoRepo\\gRPC3\\impl"
-	gen1 "../proto/crivo/github.com/example/path/gen" //C:\\Users\\voxar\\Documents\\GoRepo\\gRPC3\\proto\\crivo\\github.com\\example\\path\\gen"
+	crivo "github.com/gislayne-vitorino/GoRepo/gRPC/impl"
+	gen "github.com/gislayne-vitorino/GoRepo/gRPC/proto/gen"
 
-	//fibonacci "aulas/distribuida/fibonacci/impl"
-	//gen2 "aulas/distribuida/fibonacci/proto"
 	"fmt"
 	"net"
 	"strconv"
-
-	"../shared" //C:\\Users\\voxar\\Documents\\GoRepo\\goRPC\\shared"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -29,9 +25,8 @@ func main() {
 	// Cria um gRPC Server (“serviço de nomes” + servidor)”
 	server := grpc.NewServer()
 
-	// Registra a “Calculadora"/"Fibonacci" no servidor de nomes
-	gen1.RegisterCrivoServer(server, &crivo.CrivoDeEratostenesRPC{})
-	//gen2.RegisterFibonacciServer(server, &fibonacci.FibonacciRPC{})
+	// Registra o Crivo de Eratóstenes no servidor de nomes
+	gen.RegisterCrivoServer(server, &crivo.CrivoDeEratostenesRPC{})
 	reflection.Register(server)
 
 	fmt.Println("Servidor pronto ...")

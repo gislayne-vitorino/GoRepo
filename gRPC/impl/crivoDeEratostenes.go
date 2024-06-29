@@ -1,16 +1,24 @@
 package impl
 
 import (
-	gen "C:\\Users\\voxar\\Documents\\GoRepo\\gRPC\\proto"
+	"context"
+	"fmt"
 
-	"golang.org/x/net/context"
+	"github.com/gislayne-vitorino/GoRepo/gRPC/proto/gen"
 )
 
 type CrivoDeEratostenesRPC struct {
 }
 
-func (c *CrivoDeEratostenes) InvocaCrivoDeEratostenes(req *gen.Request) (reply *gen.Reply, error) {
-	n := req.Number
+func (c *CrivoDeEratostenesRPC) Crivo(ctx context.Context, req *gen.Request) (reply *gen.Reply, er error) {
+	n := int(req.P1)
+
+	reply = &gen.Reply{}
+
+	// Error handling in gRPC method
+	if n <= 0 {
+		return nil, fmt.Errorf("Invalid input: P1 must be greater than zero")
+	}
 
 	primes := make([]bool, n+1)
 	for i := 2; i <= n; i++ {
@@ -25,34 +33,11 @@ func (c *CrivoDeEratostenes) InvocaCrivoDeEratostenes(req *gen.Request) (reply *
 		}
 	}
 
-	reply := &gen.Reply{}
 	for p := 2; p <= n; p++ {
 		if primes[p] {
-			reply.Result = append(reply.Result, p)
+			reply.N = append(reply.N, int32(p))
 		}
 	}
 
-	return nil
-}
-/*
-func (t *CrivoDeEratostenesRPC) Add(ctx context.Context, request *gen.Request) (*gen.Reply, error) {
-	reply := &gen.Reply{}
-	reply.N = request.P1 + request.P2
 	return reply, nil
 }
-func (t *CrivoDeEratostenesRPC) Sub(ctx context.Context, request *gen.Request) (*gen.Reply, error) {
-	reply := &gen.Reply{}
-	reply.N = request.P1 - request.P2
-	return reply, nil
-}
-func (t *CrivoDeEratostenesRPC) Mul(ctx context.Context, request *gen.Request) (*gen.Reply, error) {
-	reply := &gen.Reply{}
-	reply.N = request.P1 * request.P2
-	return reply, nil
-}
-func (t *CrivoDeEratostenesRPC) Div(ctx context.Context, request *gen.Request) (*gen.Reply, error) {
-	reply := &gen.Reply{}
-	reply.N = request.P1 / request.P2
-	return reply, nil
-}
-*/
