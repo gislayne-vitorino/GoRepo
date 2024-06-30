@@ -37,20 +37,20 @@ func ClientePerf() {
 		shared.ChecaErro(err, "Não foi possível fechar a conexão TCP com o servidor do Crivo de Eratostenes...")
 	}(client)
 
-	req := shared.Request{Number: 10}
+	req := shared.Request{Number: 1000}
 	rep := shared.Reply{}
 	var durations []int64
 
 	// Cria um arquivo .txt para salvar os resultados
-	file, err := os.Create("../outputs/10_10.txt")
+	file, err := os.Create("../outputs/output_1000_10000.txt")
 	if err != nil {
 		fmt.Println("Erro na criação do arquivo:", err)
 		return
 	}
 	defer file.Close()
 
-	for j := 0; j < shared.SampleSize; j++ {
-		for i := 0; i < shared.StatisticSample; i++ {
+	for j := 0; j < shared.StatisticSample; j++ {
+		for i := 0; i < shared.SampleSize; i++ {
 			t1 := time.Now()
 
 			err = client.Call("CrivoDeEratostenes.InvocaCrivoDeEratostenes", req, &rep)
@@ -74,7 +74,7 @@ func ClientePerf() {
 	//_, err = file.WriteString(fmt.Sprintf("Mean duration: %v ns\n", mean))
 	//if err != nil {
 	//	fmt.Println("Erro na escrita do arquivo:", err)
-//	}
+	//	}
 }
 
 func calculateMean(durations []int64) float64 {
