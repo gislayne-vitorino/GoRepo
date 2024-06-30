@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-work/shared"
 	"net/rpc"
+	"os"
 	"strconv"
 	"time"
 )
@@ -40,19 +41,40 @@ func ClientePerf() {
 	rep := shared.Reply{}
 	var durations []int64
 
-	for i := 0; i < shared.StatisticSample; i++ {
-		t1 := time.Now()
+	// Cria um arquivo .txt para salvar os resultados
+	file, err := os.Create("../outputs/10_10.txt")
+	if err != nil {
+		fmt.Println("Erro na criação do arquivo:", err)
+		return
+	}
+	defer file.Close()
 
-		err = client.Call("CrivoDeEratostenes.InvocaCrivoDeEratostenes", req, &rep)
+	for j := 0; j < shared.SampleSize; j++ {
+		for i := 0; i < shared.StatisticSample; i++ {
+			t1 := time.Now()
 
-		t2 := time.Now().Sub(t1).Nanoseconds()
-		durations = append(durations, t2)
+			err = client.Call("CrivoDeEratostenes.InvocaCrivoDeEratostenes", req, &rep)
 
-		fmt.Printf("RTT: %v: %v\n", t2, rep)
+			t2 := time.Now().Sub(t1).Nanoseconds()
+			durations = append(durations, t2)
+
+			fmt.Printf("%v\n", t2)
+
+			// Converte int64 pra string e salva no arquivo
+			_, err = file.WriteString(strconv.FormatInt(t2, 10) + "\n")
+			if err != nil {
+				fmt.Println("Erro na escrita do arquivo:", err)
+			}
+		}
 	}
 
-	mean := calculateMean(durations)
-	fmt.Printf("Mean duration: %v ns\n", mean)
+	//mean := calculateMean(durations)
+	//fmt.Printf("Mean duration: %v ns\n", mean)
+
+	//_, err = file.WriteString(fmt.Sprintf("Mean duration: %v ns\n", mean))
+	//if err != nil {
+	//	fmt.Println("Erro na escrita do arquivo:", err)
+//	}
 }
 
 func calculateMean(durations []int64) float64 {
