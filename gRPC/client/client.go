@@ -30,7 +30,7 @@ func main() {
 	fmt.Println("Proxy criado...")
 
 	// Cria um arquivo .txt para salvar os resultados
-	file, err := os.Create("../outputs/output_1000_10000.txt")
+	file, err := os.Create("../outputs_concurrency/output_1000_10000.txt")
 	if err != nil {
 		fmt.Println("Erro na criação do arquivo:", err)
 		return
