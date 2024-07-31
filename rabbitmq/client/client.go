@@ -26,7 +26,7 @@ func main() {
 	shared.ChecaErro(err, "Não foi possível se conectar ao servidor de mensageria")
 	defer conn.Close()
 
-	file, err := os.Create("../resultadosRabbitMQ/output_10_10.txt")
+	file, err := os.Create("../resultadosRabbitMQ/output_10_100.txt")
 	if err != nil {
 		fmt.Println("Erro na criação do arquivo:", err)
 		return
@@ -60,11 +60,11 @@ func main() {
 	shared.ChecaErro(err, "Falha ao registrar o servidor no broker")
 
 	for j := 0; j < shared.StatisticSample; j++ {
-		for i := 0; i < shared.SampleSize; i++ {
+		for i := 0; i < 100; i++ {
 			t1 := time.Now()
 
 			// prepara mensagem
-			msgRequest := shared.Request{Number: i}
+			msgRequest := shared.Request{Number: 10}
 			msgRequestBytes, err := json.Marshal(msgRequest)
 			shared.ChecaErro(err, "Falha ao serializar a mensagem")
 
@@ -93,7 +93,7 @@ func main() {
 			err = json.Unmarshal(m.Body, &msgResponse)
 			shared.ChecaErro(err, "Erro na deserialização da resposta")
 
-			fmt.Printf("%d(%v)\n", msgRequest.Number, msgResponse.Result[0])
+			fmt.Printf("%v\n", msgResponse.Result[0])
 
 			// Converte int64 pra string e salva no arquivo
 			_, err = file.WriteString(strconv.FormatInt(t2, 10) + "\n")
